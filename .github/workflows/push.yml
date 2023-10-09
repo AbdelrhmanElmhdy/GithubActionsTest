@@ -11,7 +11,7 @@ jobs:
 
             - name: second_step
               run: echo ${{ toJson(github) }}
-              shell: zsh
+              shell: bash
     
     second_job:
         runs-on: macos-latest
