@@ -10,7 +10,8 @@ jobs:
               run: echo "Hello, Wolrd!"
 
             - name: second_step
-              run: echo ${{ github }}
+              run: echo ${{ toJson(github) }}
+              shell: zsh
     
     second_job:
         runs-on: macos-latest
