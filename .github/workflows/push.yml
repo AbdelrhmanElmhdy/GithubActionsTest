@@ -10,7 +10,7 @@ jobs:
               run: echo "Hello, Wolrd!"
 
             - name: second_step
-              run: echo ${{ toJson(github) }}
+              run: echo ${{ toJson(github.event) }}
               shell: bash
     
     second_job:
