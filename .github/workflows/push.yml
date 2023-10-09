@@ -10,8 +10,7 @@ jobs:
               run: echo "Hello, Wolrd!"
 
             - name: second_step
-              run: echo '${{ toJson(github.event) }}' | jq
-              shell: bash
+              run: echo '${{ toJson(github) }}'
     
     second_job:
         runs-on: macos-latest
