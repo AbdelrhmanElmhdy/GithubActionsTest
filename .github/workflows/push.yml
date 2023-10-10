@@ -7,13 +7,13 @@ jobs:
         runs-on: macos-latest
         steps:
             - name: first_step
-              run: echo $(pwd)
+              run: pwd
 
             - name: second_step
-              run: echo '${{ toJson(github) }}'
+              run: ls
     
     second_job:
         runs-on: macos-latest
         steps:
             - name: first_step2
-              run: echo $(ls)
+              run: echo '${{ toJson(github) }}'
