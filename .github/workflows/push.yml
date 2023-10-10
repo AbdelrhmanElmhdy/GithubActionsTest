@@ -1,19 +1,19 @@
-name: "push"
+name: push
 
-on: push
+on: pull_request
 
 jobs:
     first_job:
         runs-on: macos-latest
         steps:
             - name: first_step
-              run: echo "Hello, Wolrd!"
+              run: pwd
 
             - name: second_step
-              run: echo '${{ toJson(github) }}'
+              run: ls
     
     second_job:
         runs-on: macos-latest
         steps:
             - name: first_step2
-              run: echo "running first_step2"
+              run: echo '${{ toJson(github) }}'
