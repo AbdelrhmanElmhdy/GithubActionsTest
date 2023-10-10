@@ -3,7 +3,7 @@ on: pull_request
 
 jobs:
   branch-naming-rules:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: deepakputhraya/action-branch-name@master
         with:
@@ -12,3 +12,33 @@ jobs:
           ignore: main,dev # Ignore exactly matching branch names from convention
           min_length: 5 # Min length of the branch name
           max_length: 20 # Max length of the branch name
+
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Swift Packages Cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: |
+            Build/SourcePackages
+            Build/Build/Products
+          key: ${{ runner.os }}-deps-v1-${{ hashFiles('CICDTest.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: ${{ runner.os }}-deps-v1-
+
+      - name: Run swiftlint
+        run: fastlane lint
+
+      - name: Run Tests (No Cache)
+        if: steps.setup.outputs.cache-hit != 'true'
+        run: fastlane tests
+      
+      - name: Run Tests (Cache)
+        if: steps.setup.outputs.cache-hit == 'true'
+        run: fastlane tests skip_package_dependencies_resolution:true
